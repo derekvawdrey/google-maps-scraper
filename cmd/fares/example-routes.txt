@@ -1,0 +1,4 @@
+# One "origin -> destination" per line. Blank lines and '#' comments ignored.
+Tokyo Station -> Shibuya Station
+Kyoto Station -> Osaka Station
+Shinjuku Station -> Yokohama Station

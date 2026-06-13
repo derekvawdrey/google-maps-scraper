@@ -31,7 +31,8 @@ WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
-RUN CGO_ENABLED=0 go build -ldflags="-w -s" -o /usr/bin/google-maps-scraper
+RUN CGO_ENABLED=0 go build -buildvcs=false -ldflags="-w -s" -o /usr/bin/google-maps-scraper \
+    && CGO_ENABLED=0 go build -buildvcs=false -ldflags="-w -s" -o /usr/bin/gmaps-fares ./cmd/fares
 
 # Final stage
 FROM debian:trixie-slim
@@ -70,5 +71,6 @@ RUN chmod -R 755 /opt/browsers \
     && chmod -R 755 /opt/ms-playwright-go
 
 COPY --from=builder /usr/bin/google-maps-scraper /usr/bin/
+COPY --from=builder /usr/bin/gmaps-fares /usr/bin/
 
 ENTRYPOINT ["google-maps-scraper"]
